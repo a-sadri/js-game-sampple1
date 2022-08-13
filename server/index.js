@@ -1,22 +1,25 @@
 import express from 'express';
-import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 import cors from 'cors';
 import morgan from 'morgan';
 
+import connectDB from './config/db.js';
+
+dotenv.config();
+
+connectDB();
 const app = express();
 
 app.use(morgan('dev'));
-app.use(express.json({ limit: '30mb', extended: true }));
-app.use(express.urlencoded({ limit: '30mb', extended: true }));
+app.use(express.json());
+app.use(cors());
+// app.use(express.urlencoded({ limit: '30mb', extended: true }));
 
-const MONGODB_URL =
-  'mongodb+srv://ali:wX4M6z70WmesNl8g@cluster0.jlyospb.mongodb.net/?retryWrites=true&w=majority';
-
-const port = 5000;
+const PORT = process.env.PORT || 5000;
 app.get('/', (req, res) => {
   res.send('Hi');
 });
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
